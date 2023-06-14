@@ -16,9 +16,9 @@ This Python script reads weight data from a serial port and sends it as keyboard
 2. Install the required Python packages:
 
    ```shell
-   pip install pyserial pyautogui
+   pip install pyserial pyautogui pyinstaller
    ```
-3. Update the JSON configuration file (`config.json`)
+3. Update the provided JSON configuration file (`config.json`)
 
 4. Convert the file to an executable:
 
