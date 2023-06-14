@@ -1,0 +1,7 @@
+{
+  "port": "COM3",
+  "baud_rate": 9600,
+  "timeout": 30,
+  "eol": "\r\n"
+}
+
