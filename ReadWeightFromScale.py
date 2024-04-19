@@ -1,21 +1,14 @@
-import argparse
 import json
 import serial
 import pyautogui
 import time
 import re
 
-# Parse command-line arguments
-parser = argparse.ArgumentParser(description='Read weight data from serial port and send it as keyboard input.')
-parser.add_argument('-c', '--config', type=str, help='Path to the configuration file')
-args = parser.parse_args()
-
-# Validate command-line arguments
-if not args.config:
-    parser.error('Please provide the path to the configuration file.')
+# Fichier de configuration pré-defini
+config_file_path = 'config.json'
 
 # Load the configuration from the file
-with open(args.config, 'r') as file:
+with open(config_file_path) as file:
     config = json.load(file)
 
 # Extract configuration values
