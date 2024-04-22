@@ -1,8 +1,8 @@
 import json
 import serial
-import pyautogui
-import time
 import re
+from time import sleep
+from pyautogui import press
 
 # Fichier de configuration pré-defini
 config_file_path = 'config.json'
@@ -14,6 +14,9 @@ with open(config_file_path) as file:
 # Extract configuration values
 port = config.get('port')
 baud_rate = config.get('baud_rate')
+bytesize = config.get('bytesize')
+parity = config.get('parity')
+stopbits = config.get('stopbits')
 timeout = config.get('timeout')
 eol = config.get('eol')
 
@@ -25,21 +28,28 @@ if not port or not baud_rate:
 ser = None
 while ser is None:
     try:
-        ser = serial.Serial(port, baud_rate)
+        ser = serial.Serial(port, baud_rate, bytesize, parity, stopbits)
         print(f"Connected to COM port {port}")
 
         # Read data from the serial port
         while True:
             # Read a line from the serial port
             line = ser.readline().decode().strip()
+            weight_match = re.search(r'\b(\d+\.\d+)\b', line)
 
             # Process the line and convert it to weight data
-            if line.startswith('Net:'):
-                # Extract weight value from the line
-                weight_str = re.sub('[\[\]]', '', line.split()[1])
+            if weight_match:
+                weight_str = weight_match.group(1)
+                # keyboard.write(weight_str)
+            
+            else:
+                # Handle case where no match is found
+                weight_str = "ERREUR"  # or any default value you prefer
+                # keyboard.write(weight_str)
 
-                # Simulate keyboard input
-                pyautogui.typewrite(weight_str + eol)
+            for c in (weight_str + eol):
+                press(c)
+            
 
         # Close the serial port
         ser.close()
